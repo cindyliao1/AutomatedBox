@@ -70,6 +70,6 @@ class Automate:
     def write(self, users):
         with open('space_usage.csv', 'w') as f:
             writer = csv.writer(f)
-            writer.writerow(['User', 'Space amount', 'Space used', 'Percentage used'])
+            writer.writerow(['User ID', 'User Name', 'Space amount', 'Space used', 'Percentage used'])
             for user in users:
-                writer.writerow([user, user.space_amount, user.space_used, user.space_used/user.space_amount * 100])
+                writer.writerow([user.id, user.name, user.space_amount, user.space_used, user.space_used/user.space_amount * 100])
