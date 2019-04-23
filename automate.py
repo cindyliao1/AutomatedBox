@@ -62,14 +62,21 @@ class Automate:
         return oauth, access_token, refresh_token
 
 
-    # convert_to_csv(enterprise_users)
-    # for user in enterprise_users:
-    #     print(user, "\n\t space amount: ", user.space_amount, "\n\t space used:", user.space_used
-    #       , "\n\t percentage used: ", user.space_used/user.space_amount * 100)
-    # print (enterprise_users)
     def write(self, users):
-        with open('space_usage.csv', 'w') as f:
+        with open('space_usage.csv', 'w', encoding='utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(['User ID', 'User Name', 'Space amount', 'Space used', 'Percentage used'])
+            writer.writerow(['User ID', 'User Name', 'Space amount (TB)', 'Space used(MB)', 'Percentage used', 'User Status'])
+            print("write row finished")
+
+            # print(len(users))
             for user in users:
-                writer.writerow([user.id, user.name, user.space_amount, user.space_used, user.space_used/user.space_amount * 100])
+                # print(user)
+                space_amount = round(user.space_amount/1000000000000, 2)
+                if space_amount > 50:
+                    space_amount = "unlimited"
+
+                uid = user.login[0:user.login.index("@")]
+
+                writer.writerow([uid, user.name, space_amount, round(user.space_used/1000000, 2), round(user.space_used/user.space_amount * 100, 2), user.status])
+
+            print('done')
